@@ -16,6 +16,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <div className={styles.banner}>
       <Image
             className={styles.logo}
@@ -34,6 +35,9 @@ export default function Home() {
               priority
             />
           </div>
+      </div>
+
+      <div className={styles.container}>
       </div>
              </>
   )
