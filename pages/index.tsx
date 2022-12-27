@@ -1,13 +1,23 @@
+import { useState } from 'react';
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import Logo from '../public/logo.svg'
-import Play from '../public/play.svg' 
 import styles from '../styles/Home.module.css'
-
+import Player from '../components/Player';
+import Banner from '../components/Banner'
+import Queue from '../components/Queue'
+import TestQueue from '../data/test-queue.json'
 
 
 export default function Home() {
+  const [videoData, updateVideoData] = useState(TestQueue.items);
+  const [currentVideoId, updateCurrentVideoId] = useState(videoData[0].id.videoId)
+
+  const playNext = () => {
+    videoData.shift()
+    if (videoData.length > 0) {
+      updateCurrentVideoId(videoData[0].id.videoId)
+    }
+  }
+
   return (
     <>
       <Head>
@@ -16,29 +26,20 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <div className={styles.banner}>
-      <Image
-            className={styles.logo}
-            src={Logo}
-            alt="Logo da Direção Concursos - Uma águia branca sob fundo preto"
-            width={100}
-            height={37}
-            priority
-          />
-          <div className={styles.play}>
-            <Image
-              src={Play}
-              alt="Play"
-              width={25}
-              height={20}
-              priority
-            />
-          </div>
-      </div>
+      <main className={styles.main}>
+      <Banner />
 
       <div className={styles.container}>
+        <Player videoURL={currentVideoId} onEnd={playNext}/>
+        <Queue data={videoData} />
       </div>
-             </>
+
+      <footer className={styles.footer}>
+        <a href="https://direcaoconcursos.com.br" target="_blank" rel="noopener noreferrer">
+          Direção Concursos
+        </a>
+      </footer>
+      </main>
+</>
   )
 }
